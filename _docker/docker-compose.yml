@@ -38,3 +38,13 @@ services:
     ]
     container_name: app_mysql
 
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+        - "8876:80"
+    environment:
+        PMA_HOST: "mysql"
+        PMA_USER: root
+        PMA_PASSWORD: root
+
+
