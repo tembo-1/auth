@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ../../auth:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - "80:80"
+    container_name: app_nginx
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: .
+      dockerfile: php/Dockerfile
+    volumes:
+      - ../:/var/www
+    depends_on:
+      - mysql
+    container_name: app_php
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: auth
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    command: [
+      "mysqld",
+      "--character-set-server=utf8",
+      "--collation-server=utf8_unicode_ci",
+      "--innodb-ft-min-token-size=1"
+    ]
+    container_name: app_mysql
+
