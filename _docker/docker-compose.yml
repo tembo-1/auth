@@ -28,6 +28,8 @@ services:
     environment:
       MYSQL_DATABASE: auth
       MYSQL_ROOT_PASSWORD: root
+    volumes:
+        - ../tmp/db:/var/lib/mysql
     ports:
       - "3306:3306"
     command: [
@@ -46,5 +48,8 @@ services:
         PMA_HOST: "mysql"
         PMA_USER: root
         PMA_PASSWORD: root
+    depends_on:
+        - mysql
+    container_name: app_phpmyadmin
 
 
